@@ -22,8 +22,8 @@ jobs:
         pip install -r requirements.txt
       
     - name: Lint with Black
-      run: python -m black.--check -l 120
+      run: python -m black --check -l 120
     - name: Test with unittest
       run: pytest tests
     - name: Check types with mypy
-      run: mypy.--ignore-missing-imports
+      run: mypy --ignore-missing-imports
