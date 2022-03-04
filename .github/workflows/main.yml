@@ -29,5 +29,5 @@ jobs:
           
       - name: Check types with mypy
         run: |
-          mypy . --ignore-missing-imports
+          if [-f *.py]; then mypy . --ignore-missing-imports; fi
 
