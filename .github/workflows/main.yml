@@ -21,7 +21,7 @@ jobs:
           
       - name: Lint with Black
         run: |
-          black --check -l 120
+          if [-d SRC]; then black . --check -l 120; fi
           
       - name: Test with unittest
         run: |
