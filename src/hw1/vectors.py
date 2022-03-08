@@ -38,6 +38,5 @@ def vector_norm(vector):
 def vector_angle(first_vector, second_vector):
     vector_check_exception_raiser(first_vector, second_vector)
     return acos(
-        vector_multiplication(first_vector, second_vector)
-        / (vector_norm(first_vector) * vector_norm(second_vector))
+        vector_multiplication(first_vector, second_vector) / (vector_norm(first_vector) * vector_norm(second_vector))
     )
