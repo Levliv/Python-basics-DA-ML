@@ -1,14 +1,14 @@
 def curry_explicit(func, arity):
     if arity < 0:
-        raise TypeError("Arity should be positive")
+        raise RuntimeError("Arity should be positive")
     if arity < 2:
         return func
 
     def curry(arg):
         def simplify(*args):
             if len(args) != arity - 1:
-                raise TypeError("Curry: Arity doesn't match with the number of args")
-            return (arg, *args)
+                raise RuntimeError("Curry: Arity doesn't match with the number of args")
+            return func(arg, *args)
 
         return curry_explicit(simplify, arity - 1)
 
@@ -17,11 +17,12 @@ def curry_explicit(func, arity):
 
 def uncurry_explicit(func, arity):
     if arity < 0:
-        raise TypeError("Arity should be positive")
+        raise RuntimeError("Arity should be positive")
 
     def uncurry(*args):
         if len(args) != arity:
-            raise TypeError("Uncurry: Arity doesn't match with the number of args")
+            raise RuntimeError("Uncurry: Arity doesn't match with the number of args")
+        ctor = curry
         for arg in args:
             ctor = ctor(args)
         return ctor
