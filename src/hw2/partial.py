@@ -1,4 +1,5 @@
 def curry_explicit(func, arity):
+    """Returns curried function"""
     if arity < 0:
         raise RuntimeError("Arity should be positive")
     if arity < 2:
@@ -16,6 +17,7 @@ def curry_explicit(func, arity):
 
 
 def uncurry_explicit(func, arity):
+    """Returns function with the number of args defined in arity"""
     if arity < 0:
         raise RuntimeError("Arity should be positive")
 
