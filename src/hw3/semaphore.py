@@ -1,3 +1,20 @@
-Python 3.8.8 (tags/v3.8.8:024d805, Feb 19 2021, 13:18:16) [MSC v.1928 64 bit (AMD64)] on win32
-Type "help", "copyright", "credits" or "license()" for more information.
->>> 
+from contextlib import contextmanager
+from threading import Lock
+
+
+class ConcurrentDict:
+    """Safe for multi threading dict"""
+
+    def __init__(self):
+        self.dict = dict()
+        self.locker = Lock
+
+
+@contextmanager
+def modify_safely(self):
+    """Safe dictionary modifier"""
+    self.locker.acquire()
+    try:
+        yield self.dict
+    finally:
+        self.locker.release()
