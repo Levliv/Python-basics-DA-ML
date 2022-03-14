@@ -1,3 +1,6 @@
+import copy
+
+
 class TreapNode:
     def __init__(self, key, priority):
         self.key = key
@@ -10,20 +13,15 @@ class TreapNode:
 
 
 class Treap(TreapNode):
+    def __init__(self, key, priority):
+        super().__init__(key, priority)
 
-    def print(tree: TreapNode):
-        if tree is None:
+    def print(self):
+        if self is None:
             return
-        Treap.print(tree.left)
-        print(tree)
-        Treap.print(tree.right)
-
-    def add_node(self, node):
-        current = self
-        if current.left is None | current.left.key > node.key:
-            node.left = current.left
-            node.right = current.right
-            current.left
+        Treap.print(self.left)
+        print(self)
+        Treap.print(self.right)
 
     @staticmethod
     def merge(first_tree: TreapNode, second_tree: TreapNode):
@@ -38,11 +36,39 @@ class Treap(TreapNode):
             second_tree.left = Treap.merge(first_tree, second_tree.left)
             return second_tree
 
+    @staticmethod
+    def split(treap: TreapNode, division_key: int):
+        tree = copy.deepcopy(treap)
+        if tree is None:
+            return None, None
+        if tree.key < division_key:
+            first_tree, second_tree = Treap.split(tree.right, division_key)
+            tree.right = first_tree
+            return tree, second_tree
+        else:
+            first_tree, second_tree = Treap.split(tree.left, division_key)
+            tree.left = first_tree
+            return first_tree, tree
 
-root = Treap(2, 2)
-left = TreapNode(1, 1)
-right = TreapNode(3, 3)
-right
-root.left = left
-root.right = right
+    @staticmethod
+    def insert(treap: TreapNode, node: TreapNode):
+        if treap is None:
+            return node
+        if node.priority > treap.priority:
+            node.left, node.right = Treap.split(treap, node.key)
+            return node
+        if treap.key > node.key:
+            treap.left = Treap.insert(treap.left, node)
+            return treap
+        else:
+            treap.right = Treap.insert(treap.right, node)
+            return treap
+
+
+root = Treap(200, 200)
+left = Treap(1000, 190)
+right = Treap(24, 23)
+root.insert(root, left)
+root.insert(root, right)
+
 root.print()
