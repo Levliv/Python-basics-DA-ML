@@ -1,4 +1,4 @@
-class Tree:
+class TreapNode:
     def __init__(self, key, priority):
         self.key = key
         self.left = None
@@ -8,14 +8,18 @@ class Tree:
     def __str__(self):
         return str(f"Key: {self.key}, priority:{self.priority}")
 
-    def print(self):
-        if self.left is not None:
-            print(self.left)
 
-        print(self)
+class Treap(TreapNode):
 
-        if self.right is not None:
-            print(self.right)
+    def __str__(self):
+        return str(f"Key: {self.key}, priority:{self.priority}")
+
+    def print(tree: TreapNode):
+        if tree is None:
+            return
+        Treap.print(tree.left)
+        print(tree)
+        Treap.print(tree.right)
 
     def add_node(self, node):
         current = self
@@ -24,9 +28,9 @@ class Tree:
             node.right = current.right
             current.left
 
-root = Tree(2, 2)
-left = Tree(1, 1)
-right = Tree(3, 3)
+root = Treap(2, 2)
+left = TreapNode(1, 1)
+right = TreapNode(3, 3)
 right
 root.left = left
 root.right = right
