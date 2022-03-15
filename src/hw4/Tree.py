@@ -11,20 +11,23 @@ class TreapNode:
     def __str__(self):
         return str(f"Key: {self.key}, priority:{self.priority}")
 
-
-class Treap(TreapNode):
-    def __init__(self, key, priority):
-        super().__init__(key, priority)
-
     def print(self):
         if self is None:
             return
-        Treap.print(self.left)
+        TreapNode.print(self.left)
         print(self)
-        Treap.print(self.right)
+        TreapNode.print(self.right)
+
+
+class Treap(TreapNode):
+    def __init__(self: TreapNode, dictionary: dict):
+        keys = list(dictionary.keys())
+        self.root = TreapNode(keys[0], dictionary[keys[0]])
+        for key in keys[1:]:
+            self.root = Treap.insert(self.root, TreapNode(key, dictionary[key]))
 
     @staticmethod
-    def merge(first_tree: TreapNode, second_tree: TreapNode):
+    def merge(first_tree: TreapNode, second_tree: TreapNode) -> TreapNode:
         if first_tree is None:
             return second_tree
         if second_tree is None:
@@ -37,7 +40,7 @@ class Treap(TreapNode):
             return second_tree
 
     @staticmethod
-    def split(treap: TreapNode, division_key: int):
+    def split(treap: TreapNode, division_key: int) -> (TreapNode, TreapNode):
         tree = copy.deepcopy(treap)
         if tree is None:
             return None, None
@@ -51,7 +54,7 @@ class Treap(TreapNode):
             return first_tree, tree
 
     @staticmethod
-    def insert(treap: TreapNode, node: TreapNode):
+    def insert(treap: TreapNode, node: TreapNode) -> TreapNode:
         if treap is None:
             return node
         if node.priority > treap.priority:
@@ -65,10 +68,6 @@ class Treap(TreapNode):
             return treap
 
 
-root = Treap(200, 200)
-left = Treap(1000, 190)
-right = Treap(24, 23)
-root.insert(root, left)
-root.insert(root, right)
-
-root.print()
+base = {i: i for i in range(7)}
+root = Treap(base)
+root.root.print()
