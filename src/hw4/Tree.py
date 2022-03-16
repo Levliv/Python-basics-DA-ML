@@ -49,6 +49,9 @@ class Treap(TreapNode):
     def __del__(self):
         TreapNode.__del__(self.root)
 
+    def print(self):
+        return TreapNode.print(self.root)
+
     @staticmethod
     def merge(first_tree: TreapNode, second_tree: TreapNode) -> TreapNode:
         if first_tree is None:
@@ -94,5 +97,5 @@ class Treap(TreapNode):
 if __name__ == "__main__":
     base = {i: i for i in range(7)}
     treap = Treap(base)
-    treap.root.print()
+    treap.print()
     print(0 in treap.root)
