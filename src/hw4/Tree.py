@@ -11,6 +11,26 @@ class TreapNode:
     def __str__(self):
         return str(f"Key: {self.key}, priority:{self.priority}")
 
+    def __contains__(self, desired_key):
+        if self is None:
+            return False
+        elif self.key == desired_key:
+            return True
+        elif desired_key < self.key:
+            return TreapNode.__contains__(self.left, desired_key)
+        else:
+            return TreapNode.__contains__(self.right, desired_key)
+
+    def __repr__(self):
+        return TreapNode.__str__(self)
+
+    def __del__(self):
+        if self.left is not None:
+            TreapNode.__del__(self.left)
+
+        if self.right is not None:
+            TreapNode.__del__(self.right)
+
     def print(self):
         if self is None:
             return
@@ -25,6 +45,9 @@ class Treap(TreapNode):
         self.root = TreapNode(keys[0], dictionary[keys[0]])
         for key in keys[1:]:
             self.root = Treap.insert(self.root, TreapNode(key, dictionary[key]))
+
+    def __del__(self):
+        TreapNode.__del__(self.root)
 
     @staticmethod
     def merge(first_tree: TreapNode, second_tree: TreapNode) -> TreapNode:
@@ -68,6 +91,8 @@ class Treap(TreapNode):
             return treap
 
 
-base = {i: i for i in range(7)}
-root = Treap(base)
-root.root.print()
+if __name__ == "__main__":
+    base = {i: i for i in range(7)}
+    treap = Treap(base)
+    treap.root.print()
+    print(0 in treap.root)
