@@ -25,9 +25,9 @@ jobs:
           
       - name: Test with unittest
         run: |
-          if [-d tests]; then pytest tests; fi
+          if [ -d tests ]; then pytest tests; fi
           
       - name: Check types with mypy
         run: |
-          if [-f *.py]; then mypy . --ignore-missing-imports; fi
+          if [ -f *.py ]; then mypy . --ignore-missing-imports; fi
 
