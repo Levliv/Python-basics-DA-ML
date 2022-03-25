@@ -1,4 +1,4 @@
-from src.tests.test2 import *
+from src.tests.test2.takes import *
 
 
 def simple_test():
