@@ -1,4 +1,6 @@
 import pytest
+import os
+import sys
 from src.hw2.partial import curry_explicit, uncurry_explicit
 
 
