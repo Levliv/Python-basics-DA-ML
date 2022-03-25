@@ -1,3 +1,4 @@
+import pytest
 from src.tests.test2.takes import *
 
 
