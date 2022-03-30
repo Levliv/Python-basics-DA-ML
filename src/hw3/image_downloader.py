@@ -39,7 +39,8 @@ def downloader(cli: int):
     loop = asyncio.get_event_loop()
     group = asyncio.gather(*[loop.create_task(get_image()) for _ in range(cli)])
     loop.run_until_complete(group)
-    print(f"downloaded {cli} photos successfully, find them in \'data\' directory")
+    print(f"downloaded {cli} photos successfully, find them in 'data' directory")
     return directory_name
+
 
 downloader(4)

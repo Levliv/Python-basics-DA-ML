@@ -8,4 +8,3 @@ def skip():
     print(directory_name)
     rmdir(directory_name)
     assert 0 == 0
-
