@@ -17,8 +17,9 @@ async def get_image_links():
 
 
 async def get_image_by_link(link: str, filename: str):
-    with urlopen(link) as img, open (filename, "wb") as file:
+    with urlopen(link) as img, open(filename, "wb") as file:
         copyfileobj(img, file)
+
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(get_image_links())
