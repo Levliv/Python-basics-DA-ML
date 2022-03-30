@@ -3,18 +3,18 @@ from src.hw3.semaphore import ConcurrentDict
 
 
 def create_string(dictionary: dict, key: str, value: int):
-    with dictionary.modify_safely as dictionary:
-        dictionary[key] = value
+    with dictionary.modify_safely() as d:
+        d[key] = value
 
 
 def test_multi_threading():
     first_dict = ConcurrentDict()
-    threads = [Thread(target=create_string, args=(first_dict, f"key_{number}", number)) for number in range(1, 5)]
+    threads = [Thread(target=create_string, args=(first_dict, f"key_{number}", number)) for number in range(1, 25)]
     for thread in threads:
         thread.start()
     for thread in threads:
         thread.join()
 
     with first_dict.modify_safely() as d:
-        for number in range(1, 5):
+        for number in range(1, 25):
             assert d[f"key_{number}"] == number
