@@ -2,24 +2,29 @@ import copy
 
 
 class TreapNode:
-    def __init__(self, key, priority):
+    def __init__(self, key: int, priority: int):
         self.key = key
         self.left = None
         self.right = None
         self.priority = priority
 
+    def __iter__(self):
+        if self.left is not None:
+            for node in self.left:
+                yield node
+        yield self
+        if self.right is not None:
+            for node in self.right:
+                yield node
+
     def __str__(self):
         return str(f"Key: {self.key}, priority:{self.priority}")
 
-    def __contains__(self, desired_key):
-        if self is None:
-            return False
-        elif self.key == desired_key:
+    def __contains__(self, desired_key: int):
+        if self.find(desired_key) is not None:
             return True
-        elif desired_key < self.key:
-            return TreapNode.__contains__(self.left, desired_key)
         else:
-            return TreapNode.__contains__(self.right, desired_key)
+            return False
 
     def __repr__(self):
         return TreapNode.__str__(self)
@@ -30,6 +35,16 @@ class TreapNode:
 
         if self.right is not None:
             TreapNode.__del__(self.right)
+
+    def find(self, key: int):
+        if self is None:
+            return None
+        elif self.key == key:
+            return self
+        elif key < self.key:
+            return TreapNode.find(self.left, key)
+        else:
+            return TreapNode.find(self.right, key)
 
     def print(self):
         if self is None:
@@ -46,8 +61,17 @@ class Treap(TreapNode):
         for key in keys[1:]:
             self.root = Treap.insert(self.root, TreapNode(key, dictionary[key]))
 
+    def __contains__(self, key: int):
+        TreapNode.__contains__(self.root, key)
+
     def __del__(self):
         TreapNode.__del__(self.root)
+
+    def __iter__(self):
+        if self.root is not None:
+            return iter(self.root)
+        else:
+            return None
 
     def print(self):
         return TreapNode.print(self.root)
