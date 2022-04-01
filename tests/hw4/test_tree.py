@@ -19,8 +19,8 @@ def test_iter_get_set():
     base = {i: i for i in range(7)}
     treap = Treap(base)
     assert treap[1] == 1
-    treap[1] = 'a'
-    assert treap[1] == 'a'
+    treap[1] = "a"
+    assert treap[1] == "a"
 
 
 def test_delitem():
