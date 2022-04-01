@@ -1,12 +1,23 @@
 import copy
+from random import randint
+from typing import Any
+
+
+def get_rand_priority():
+    return randint(1, int(10e9))
 
 
 class TreapNode:
-    def __init__(self, key: int, priority: int):
+    key: int
+    value: Any
+    priority: int
+
+    def __init__(self, key: int, priority: int, value: int):
         self.key = key
+        self.priority = priority
+        self.value = value
         self.left = None
         self.right = None
-        self.priority = priority
 
     def __iter__(self):
         if self.left is not None:
@@ -18,7 +29,7 @@ class TreapNode:
                 yield node
 
     def __str__(self):
-        return str(f"Key: {self.key}, priority:{self.priority}")
+        return str(f"Key: {self.key}, priority:{self.priority}, value: {self.value}")
 
     def __contains__(self, desired_key: int):
         if self.find(desired_key) is not None:
@@ -35,6 +46,10 @@ class TreapNode:
 
         if self.right is not None:
             TreapNode.__del__(self.right)
+        self.value = None
+        self.priority = None
+        self.key = None
+        self = None
 
     def find(self, key: int):
         if self is None:
@@ -54,24 +69,31 @@ class TreapNode:
         TreapNode.print(self.right)
 
 
-class Treap(TreapNode):
+class Treap():
     def __init__(self: TreapNode, dictionary: dict):
         keys = list(dictionary.keys())
-        self.root = TreapNode(keys[0], dictionary[keys[0]])
+        self.root = TreapNode(keys[0], get_rand_priority(), dictionary[keys[0]])
         for key in keys[1:]:
-            self.root = Treap.insert(self.root, TreapNode(key, dictionary[key]))
+            self.root = Treap.insert(self.root, TreapNode(key, get_rand_priority(), dictionary[key]))
 
     def __contains__(self, key: int):
         TreapNode.__contains__(self.root, key)
-
-    def __del__(self):
-        TreapNode.__del__(self.root)
 
     def __iter__(self):
         if self.root is not None:
             return iter(self.root)
         else:
             return None
+
+    def __del__(self):
+        TreapNode.__del__(self.root)
+
+    def __getitem__(self, key: int):
+        result = self.root.find(key)
+        if result is None:
+            raise TypeError(f"Node with key {key} wasn't found in the treap")
+        else:
+            return node
 
     def print(self):
         return TreapNode.print(self.root)
