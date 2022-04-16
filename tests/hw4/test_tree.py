@@ -30,4 +30,4 @@ def test_delitem():
     treap = Treap(base)
     del treap[1]
     assert 1 not in treap
-    assert 2 in treap
+    assert 3 in treap

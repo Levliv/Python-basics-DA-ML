@@ -1,6 +1,6 @@
 import random
 from dataclasses import dataclass
-from typing import Any, Optional, Tuple
+from typing import Any, Tuple
 
 
 @dataclass
@@ -8,7 +8,6 @@ class TreapNode:
     """
     Treap Node data structure :)
     """
-
     def __init__(self, key, value):
         self.key: int = key
         self.priority: int = random.randint(0, 100)
@@ -31,9 +30,8 @@ class TreapNode:
 
 class Treap:
     """
-    Simple tree + heap struct
+    Tree + heap structure
     """
-
     def __init__(self, nodes: dict):
         self.root: Optional[TreapNode] = None
         for key in nodes:
@@ -46,15 +44,18 @@ class Treap:
         find_result = self.find(item)
         if find_result is None:
             raise KeyError(f"key: {item} was not found in the treap")
-        return find_result
+        return find_result.value
 
-    def __delitem__(self, key):
-        self.remove(key)
+    def __delitem__(self, key_to_remove):
+        node = self.find(key_to_remove)
+        if node is not None:
+            left, right = split(self.root, key_to_remove)
+            self.root = merge(left, right)
 
     def __contains__(self, item):
-        return self.find(item) is not None
+        return True if self.find(item) else False
 
-    def __str__(self):
+    def __repr__(self):
         return str(self.root)
 
     def __iter__(self):
@@ -64,27 +65,17 @@ class Treap:
     def clear(self):
         self.root = None
 
-    def insert(self, node_to_insert: TreapNode):
+    def insert(self, node_to_insert):
         """
-        Appends a new node to the tree
+        Inserts new node to the tree
         """
         if self.root is None:
             self.root = node_to_insert
         else:
-            less, bigger, equals = split(self.root, node_to_insert.key)
-            self.root = merge(merge(less, node_to_insert), bigger)
+            left, right = split(self.root, node_to_insert.key)
+            self.root = merge(merge(left, node_to_insert), right)
 
-    def remove(self, key_to_remove) -> TreapNode:
-        """
-        Removes value from the tree
-        """
-        less, bigger, equals = split(self.root, key_to_remove)
-        if equals is None:
-            raise KeyError(f"Node with this key: {key_to_remove} does not exist in the Treap")
-        self.root = merge(less, bigger)
-        return equals
-
-    def find(self, key) -> Optional[TreapNode]:
+    def find(self, key):
         """
         Finds the value of the node with the given key
         """
@@ -99,22 +90,20 @@ class Treap:
         return None
 
 
-def split(node, division_key):
+def split(node: TreapNode, division_key: int):
     """
-    Splits a tree by key
+    Splits a tree by given key
     """
     if node is None:
-        return None, None, None
+        return None, None
     if node.key < division_key:
-        temp_node = split(node.right, division_key)
-        node.right = temp_node[0]
-        return node, temp_node[1], temp_node[2]
-    elif node.key == division_key:
-        return node.left, node.right, node
+        first_tree, second_tree = split(node.right, division_key)
+        node.right = first_tree
+        return node, second_tree
     else:
-        temp_node = split(node.left, division_key)
-        node.left = temp_node[1]
-        return temp_node[0], node, temp_node[2]
+        first_tree, second_tree = split(node.left, division_key)
+        node.left = first_tree
+        return first_tree, node
 
 
 def merge(first_tree, second_tree):
