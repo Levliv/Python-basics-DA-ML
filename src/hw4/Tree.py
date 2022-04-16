@@ -8,6 +8,7 @@ class TreapNode:
     """
     Treap Node data structure :)
     """
+
     def __init__(self, key, value):
         self.key: int = key
         self.priority: int = random.randint(0, 100)
@@ -32,6 +33,7 @@ class Treap:
     """
     Tree + heap structure
     """
+
     def __init__(self, nodes: dict):
         self.root: Optional[TreapNode] = None
         for key in nodes:
