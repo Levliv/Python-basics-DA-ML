@@ -1,21 +1,18 @@
-import copy
-from random import randint
-from typing import Any
+import random
+from dataclasses import dataclass
+from typing import Any, Optional, Tuple
 
 
-def get_rand_priority():
-    return randint(1, int(10e9))
-
-
+@dataclass
 class TreapNode:
-    key: int
-    value: Any
-    priority: int
+    """
+    Treap Node data structure :)
+    """
 
-    def __init__(self, key: int, priority: int, value: int):
-        self.key = key
-        self.priority = priority
-        self.value = value
+    def __init__(self, key, value):
+        self.key: int = key
+        self.priority: int = random.randint(0, 100)
+        self.value: Any = value
         self.left = None
         self.right = None
 
@@ -28,138 +25,109 @@ class TreapNode:
             for node in self.right:
                 yield node
 
-    def __str__(self):
-        return str(f"Key: {self.key}, priority:{self.priority}, value: {self.value}")
-
-    def __contains__(self, desired_key: int):
-        if self.find(desired_key) is not None:
-            return True
-        else:
-            return False
-
     def __repr__(self):
-        return TreapNode.__str__(self)
-
-    def __del__(self):
-        if self is None:
-            pass
-        elif self.left is not None:
-            TreapNode.__del__(self.left)
-        elif self.right is not None:
-            TreapNode.__del__(self.right)
-
-        self.value = None
-        self.priority = None
-        self.key = None
-
-    def find(self, key: int):
-        if self is None:
-            return None
-        elif self.key == key:
-            return self
-        elif key < self.key:
-            return TreapNode.find(self.left, key)
-        else:
-            return TreapNode.find(self.right, key)
-
-    def print(self):
-        if self is None:
-            return
-        TreapNode.print(self.left)
-        print(self)
-        TreapNode.print(self.right)
-
-    @staticmethod
-    def merge(first_tree, second_tree):
-        if first_tree is None:
-            return second_tree
-        if second_tree is None:
-            return first_tree
-        if first_tree.priority > second_tree.priority:
-            first_tree.right = TreapNode.merge(first_tree.right, second_tree)
-            return first_tree
-        else:
-            second_tree.left = TreapNode.merge(first_tree, second_tree.left)
-            return second_tree
-
-    @staticmethod
-    def insert(treap, node):
-        if treap is None:
-            return node
-        if node.priority > treap.priority:
-            node.left, node.right = TreapNode.split(treap, node.key)
-            return node
-        if treap.key > node.key:
-            treap.left = TreapNode.insert(treap.left, node)
-            return treap
-        else:
-            treap.right = TreapNode.insert(treap.right, node)
-            return treap
-
-    @staticmethod
-    def split(treap, division_key: int):
-        tree = copy.deepcopy(treap)
-        if tree is None:
-            return None, None
-        if tree.key < division_key:
-            first_tree, second_tree = TreapNode.split(tree.right, division_key)
-            tree.right = first_tree
-            return tree, second_tree
-        else:
-            first_tree, second_tree = TreapNode.split(tree.left, division_key)
-            tree.left = first_tree
-            return first_tree, tree
+        return f"Node: Key:{self.key}, Priority:{self.priority}, Value: {self.value}"
 
 
 class Treap:
-    root: TreapNode
+    """
+    Simple tree + heap struct
+    """
 
-    def __init__(self: TreapNode, dictionary: dict):
-        if len(dictionary) == 0:
-            raise TypeError("Treap must consist of at least 1 node")
-        else:
-            keys = list(dictionary.keys())
-            self.root = TreapNode(keys[0], get_rand_priority(), dictionary[keys[0]])
-            for key in keys[1:]:
-                self.root = TreapNode.insert(self.root, TreapNode(key, get_rand_priority(), dictionary[key]))
+    def __init__(self, nodes: dict):
+        self.root: Optional[TreapNode] = None
+        for key in nodes:
+            self.insert(TreapNode(key, nodes[key]))
 
-    def __contains__(self, key: int):
-        TreapNode.__contains__(self.root, key)
+    def __setitem__(self, key, value):
+        self.insert(TreapNode(key, value))
+
+    def __getitem__(self, item):
+        find_result = self.find(item)
+        if find_result is None:
+            raise KeyError(f"key: {item} was not found in the treap")
+        return find_result
+
+    def __delitem__(self, key):
+        self.remove(key)
+
+    def __contains__(self, item):
+        return self.find(item) is not None
+
+    def __str__(self):
+        return str(self.root)
 
     def __iter__(self):
-        if self.root is not None:
-            return iter(self.root)
+        for node in self.root:
+            yield node.key
+
+    def clear(self):
+        self.root = None
+
+    def insert(self, node_to_insert: TreapNode):
+        """
+        Appends a new node to the tree
+        """
+        if self.root is None:
+            self.root = node_to_insert
         else:
-            return None
+            less, bigger, equals = split(self.root, node_to_insert.key)
+            self.root = merge(merge(less, node_to_insert), bigger)
 
-    def __getitem__(self, key: int):
-        result = self.root.find(key)
-        if result is None:
-            raise TypeError(f"Node with key {key} wasn't found in the treap")
-        else:
-            return result.value
+    def remove(self, key_to_remove) -> TreapNode:
+        """
+        Removes value from the tree
+        """
+        less, bigger, equals = split(self.root, key_to_remove)
+        if equals is None:
+            raise KeyError(f"Node with this key: {key_to_remove} does not exist in the Treap")
+        self.root = merge(less, bigger)
+        return equals
 
-    def __setitem__(self, key: int, value):
-        node = self.root.find(key)
-        if node is None:
-            self.root = self.insert(TreapNode(key, get_rand_priority(), value))
-        else:
-            node.value = value
-
-    def __delitem__(self, key: int):
-        node = self.root.find(key)
-        if node is None:
-            return None
-        else:
-            left, right = TreapNode.split(self.root, key)
-            self.root = TreapNode.merge(left, right)
-            return node
-
-    def print(self):
-        return TreapNode.print(self.root)
+    def find(self, key) -> Optional[TreapNode]:
+        """
+        Finds the value of the node with the given key
+        """
+        current_node = self.root
+        while current_node is not None:
+            if current_node.key == key:
+                return current_node
+            if current_node.key < key:
+                current_node = current_node.right
+            else:
+                current_node = current_node.left
+        return None
 
 
-if __name__ == "__main__":
-    base = {i: i for i in range(7)}
-    treap = Treap(base)
-    print(treap)
+def split(node, division_key):
+    """
+    Splits a tree by key
+    """
+    if node is None:
+        return None, None, None
+    if node.key < division_key:
+        temp_node = split(node.right, division_key)
+        node.right = temp_node[0]
+        return node, temp_node[1], temp_node[2]
+    elif node.key == division_key:
+        return node.left, node.right, node
+    else:
+        temp_node = split(node.left, division_key)
+        node.left = temp_node[1]
+        return temp_node[0], node, temp_node[2]
+
+
+def merge(first_tree, second_tree):
+    """
+    Merges two trees into one
+    """
+    if first_tree is None:
+        return second_tree
+    if second_tree is None:
+        return first_tree
+    if first_tree.priority > second_tree.priority:
+        first_tree.right = merge(first_tree.right, second_tree)
+        return first_tree
+    else:
+        second_tree.left = merge(first_tree, second_tree.left)
+        return second_tree
