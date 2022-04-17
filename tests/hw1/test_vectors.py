@@ -2,6 +2,7 @@ import pytest
 from src.hw1.vectors import vector_norm, vector_angle, vector_multiplication
 from math import sqrt, radians
 
+
 def test_vector_norm():
     vector = [x for x in range(1, 5)]
     assert vector_norm(vector) - sqrt(30) < 0.0000001
