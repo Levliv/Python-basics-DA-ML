@@ -11,7 +11,7 @@ class TreapNode:
 
     def __init__(self, key, value):
         self.key: int = key
-        self.priority: int = random.randint(0, 10e9)
+        self.priority: int = random.randint(0, 777)
         self.value: Any = value
         self.left = None
         self.right = None
