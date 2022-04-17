@@ -1,7 +1,7 @@
 from vectors import vector_multiplication, vector_check_exception_raiser
 
 
-def martix_size_check(first_matrix, second_matrix):
+def matrix_size_check(first_matrix, second_matrix):
     sizes1 = list(map(len, first_matrix))
     sizes2 = list(map(len, second_matrix))
     if sizes1 != sizes2:
