@@ -1,7 +1,9 @@
 from math import sqrt, acos
-from typing import List
+from typing import List, Union, Tuple
 
-Vector = List[Union[int, float, complex]]
+
+Numbers = Union[int, float, complex]
+Vector = Union[List[Numbers], Tuple[Numbers]]
 
 
 def vector_multiplication(first_vector: Vector, second_vector: Vector):
