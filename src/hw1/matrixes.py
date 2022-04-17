@@ -5,7 +5,7 @@ def matrix_size_check(first_matrix, second_matrix):
     sizes1 = list(map(len, first_matrix))
     sizes2 = list(map(len, second_matrix))
     if sizes1 != sizes2:
-        raise RuntimeError("Martixes should have same sizes for addition")
+        raise RuntimeError("Matrices should have same sizes for addition")
 
 
 def matrix_transpose(matrix):
