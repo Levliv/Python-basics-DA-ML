@@ -1,39 +1,47 @@
-def head(filename="first.txt", lines=10):
-    if line < 0:
+from typing import List
+import os
+
+
+def head(filename: str, lines: int = 5):
+    if lines < 0:
         raise RuntimeError("Number of lines must be positive")
-    with open(filename, "rt") as file:
-        file_head = [file.readline() for i in range(lines)]
-    print("".join(file_head))
+    with open(filename) as file:
+        for line_number, line in enumerate(file, start=1):
+            if line_number > lines:
+                break
+            print(line, end="")
 
 
-def tail(filename="first.txt", lines=10):
-    if line < 0:
+def tail(filename: str, lines: int = 5):
+    if lines < 0:
         raise RuntimeError("Number of lines must be positive")
-    with open(filename, "rt") as file:
-        file_backward = [line for line in reversed(file.readlines())]
-        file_backward[0] += "\n"
-        file_backward[-1] = file_backward[-1][0:-1]
-        print("".join(file_backward[:lines]))
+    with open(filename) as file:
+        data = list(f)[-lines:]
+        print("".join(data))
 
 
-def nl(filename="first.txt"):
-    with open(filename, "rt") as file:
-        lines = [line[0:-1] for line in file.readlines()]
-        rows = [str(i) for i in range(len(lines))]
-        numbered_lines = list(zip(rows, lines))
-        list(map(lambda x: print(" ".join(x)), numbered_lines))
+def nl(filename: str):
+    current_line = 1
+    with open(filename) as file:
+        for line in file:
+            if line.strip():
+                print(f"{current_line}: line", end="")
+                current_line += 1
+            else:
+                print(line, end="")
 
 
-def wc(filename="first.txt"):
-    with open(filename, "rt") as file:
-        number_lines = len(file.readlines())
-        file.seek(0)
-        file_text = file.read()
-        words = 0
-        for symbol in file_text:
-            if (symbol == " ") | (symbol == "\n"):
-                words += 1
-
-        print(f"lines = {number_lines}")
-        print(f"words = {words}")
-        print(f"symbols = {len(file_text)}")
+def wc(filename: str):
+    total_lines, total_words, total_symbols = 0, 0, 0
+    with open(filename) as file:
+        symbols = os.path.getsize(filename)
+        lines, words = 0, 0
+        for line in file:
+            lines += 1
+            words += len(line.split())
+        total_lines += lines
+        total_words += words
+        total_symbols += symbols
+    print(f"lines = {total_lines}")
+    print(f"words = {total_words}")
+    print(f"symbols = {total_symbols}")
