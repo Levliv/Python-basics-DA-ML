@@ -13,10 +13,11 @@ def head(filename: str, lines: int = 5):
 
 
 def tail(filename: str, lines: int = 5):
+    lines -= 1
     if lines < 0:
         raise RuntimeError("Number of lines must be positive")
     with open(filename) as file:
-        data = list(f)[-lines:]
+        data = list(file)[-lines:]
         print("".join(data))
 
 
@@ -25,7 +26,7 @@ def nl(filename: str):
     with open(filename) as file:
         for line in file:
             if line.strip():
-                print(f"{current_line}: line", end="")
+                print(f"{current_line}: {line}", end="")
                 current_line += 1
             else:
                 print(line, end="")
@@ -35,13 +36,13 @@ def wc(filename: str):
     total_lines, total_words, total_symbols = 0, 0, 0
     with open(filename) as file:
         symbols = os.path.getsize(filename)
-        lines, words = 0, 0
+        words = 0
         for line in file:
-            lines += 1
+            total_lines += 1
             words += len(line.split())
-        total_lines += lines
         total_words += words
         total_symbols += symbols
+        total_lines += 1
     print(f"lines = {total_lines}")
     print(f"words = {total_words}")
     print(f"symbols = {total_symbols}")
