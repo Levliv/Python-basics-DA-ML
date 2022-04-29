@@ -3,7 +3,7 @@ from collections import Counter
 from typing import List
 
 letter_pattern = "[а-яА-Яa-zA-Z]"
-word_pattern = re.compile("[A-Яа-яA-Za-z]+")
+word_pattern = re.compile("[A-Яа-яA-Za-z']+")
 sentence_pattern = re.compile("[.!?]+")
 
 

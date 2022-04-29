@@ -13,13 +13,13 @@ def test_simple_word_counter():
 def test_pro_word_counter():
     assert count_top_words("tests/test2/Data/test.txt", 10) == [
         "to",
-        "women",
         "are",
-        "s",
+        "women",
         "in",
         "so",
         "of",
         "their",
         "children",
         "that",
+        "a",
     ]
