@@ -44,8 +44,10 @@ class Node:
         self.right: Node = right_passed
 
     def __repr__(self):
-        return f"Node_id: {id(self)}, key: {self.key}, priority: {self.priority}\n left Node: {id(self.left)}\n  " \
-               f"right Node: {id(self.right)}"
+        return (
+            f"Node_id: {id(self)}, key: {self.key}, priority: {self.priority}\n left Node: {id(self.left)}\n  "
+            f"right Node: {id(self.right)}"
+        )
 
     def __eq__(self, other):
         return self.key == other.key and self.priority == other.priority
@@ -82,7 +84,7 @@ class Tree:
     def delete(self, key: int):
         self.tree_size -= 1
         a, b = split(self.root, key)
-        a1, a2 = split(a, key-1)
+        a1, a2 = split(a, key - 1)
         self.root = merge(a1, b)
 
     def find(self, key):
@@ -103,7 +105,7 @@ class Tree:
         item = self.find(key)
         if item is not None:
             return item
-        raise IndexError('Element with that key doesn\'t exist')
+        raise IndexError("Element with that key doesn't exist")
 
     def __setitem__(self, key, priority):
         self.add(Node(key, priority))

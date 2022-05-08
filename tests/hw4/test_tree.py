@@ -93,7 +93,7 @@ def test_contains():
 def test_get_element():
     t1 = Tree({1: 3, 2: 5, 8: 8, 6: 12})
     assert t1[2] == Node(2, 5)
-    with pytest.raises(IndexError, match=r'exist') as e:
+    with pytest.raises(IndexError, match=r"exist") as e:
         t1[23]
 
 
