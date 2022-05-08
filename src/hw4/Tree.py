@@ -1,124 +1,127 @@
-import random
-from dataclasses import dataclass
-from typing import Any, Tuple, Optional
-
-
-@dataclass
-class TreapNode:
-    """
-    Treap Node data structure :)
-    """
-
-    def __init__(self, key, value):
-        self.key: int = key
-        self.priority: int = random.randint(0, 777)
-        self.value: Any = value
-        self.left = None
-        self.right = None
-
-    def __iter__(self):
-        if self.left is not None:
-            for node in self.left:
-                yield node
-        yield self
-        if self.right is not None:
-            for node in self.right:
-                yield node
-
-    def __repr__(self):
-        return f"Node: Key:{self.key}, Priority:{self.priority}, Value: {self.value}"
-
-
-class Treap:
-    """
-    Tree + heap structure
-    """
-
-    def __init__(self, nodes: dict):
-        self.root: Optional[TreapNode] = None
-        for key in nodes:
-            self.insert(TreapNode(key, nodes[key]))
-
-    def __repr__(self):
-        return str(self.root)
-
-    def __iter__(self):
-        for node in self.root:
-            yield node.key
-
-    def __contains__(self, item):
-        return True if self.find(item) else False
-
-    def __setitem__(self, key, value):
-        self.insert(TreapNode(key, value))
-
-    def __getitem__(self, item):
-        find_result = self.find(item)
-        if find_result is None:
-            raise KeyError(f"key: {item} was not found in the treap")
-        return find_result.value
-
-    def __delitem__(self, key_to_remove):
-        node = self.find(key_to_remove)
-        if node is not None:
-            left, right = split(self.root, key_to_remove)
-            self.root = merge(left, right)
-
-    def find(self, key: int):
-        """
-        Finds the value of the node with the given key
-        """
-        current_node = self.root
-        while current_node is not None:
-            if current_node.key == key:
-                return current_node
-            if current_node.key < key:
-                current_node = current_node.right
-            else:
-                current_node = current_node.left
-        return None
-
-    def clear(self):
-        self.root = None
-
-    def insert(self, node_to_insert):
-        """
-        Inserts new node to the tree
-        """
-        if self.root is None:
-            self.root = node_to_insert
-        else:
-            left, right = split(self.root, node_to_insert.key)
-            self.root = merge(merge(left, node_to_insert), right)
-
-
-def split(node: TreapNode, division_key: int):
-    """
-    Splits a tree by given key
-    """
-    if node is None:
-        return None, None
-    if node.key < division_key:
-        first_tree, second_tree = split(node.right, division_key)
-        node.right = first_tree
-        return node, second_tree
-    else:
-        first_tree, second_tree = split(node.left, division_key)
-        node.left = first_tree
-        return first_tree, node
+from random import randint
 
 
 def merge(first_tree, second_tree):
     """
-    Merges two trees into one
+    Merges 2 trees into 1.
+    NB: it is important that keys in the first_tree should less than in the right one.
     """
+
     if first_tree is None:
         return second_tree
     if second_tree is None:
         return first_tree
-    if first_tree.priority > second_tree.priority:
+    if first_tree.priority >= second_tree.priority:
         first_tree.right = merge(first_tree.right, second_tree)
         return first_tree
     else:
         second_tree.left = merge(first_tree, second_tree.left)
         return second_tree
+
+
+def split(tree, key: int):
+    """
+    Splits the tree into 2 parts by the given key.
+    """
+
+    if tree is None:
+        return None, None
+    if key >= tree.key:
+        a, b = split(tree.right, key)
+        tree.right = a
+        return tree, b
+    else:
+        a, b = split(tree.left, key)
+        tree.left = b
+        return a, tree
+
+
+class Node:
+    def __init__(self, key_passed: int, priority_passed: int, left_passed=None, right_passed=None):
+        self.key: int = key_passed
+        self.priority: int = priority_passed
+        self.left: Node = left_passed
+        self.right: Node = right_passed
+
+    def __repr__(self):
+        return f"Node_id: {id(self)}, key: {self.key}, priority: {self.priority}\n left Node: {id(self.left)}\n  " \
+               f"right Node: {id(self.right)}"
+
+    def __eq__(self, other):
+        return self.key == other.key and self.priority == other.priority
+
+    def __iter__(self):
+        """
+        Прмой (Pre-order) обход
+        """
+
+        yield self
+        if self.left is not None:
+            yield from self.left
+        if self.right is not None:
+            yield from self.right
+
+
+class Tree:
+    root: Node = None
+
+    def __init__(self, elements: map):
+        self.tree_size: int = 0
+        for key, priority in elements.items():
+            n = Node(key, priority)
+            self.add(n)
+
+    def add(self, other: Node):
+        self.tree_size += 1
+        if self.root is None:
+            self.root = other
+        else:
+            (a, b) = split(self.root, other.key)
+            self.root = merge(merge(a, other), b)
+
+    def delete(self, key: int):
+        self.tree_size -= 1
+        a, b = split(self.root, key)
+        a1, a2 = split(a, key-1)
+        self.root = merge(a1, b)
+
+    def find(self, key):
+        current = self.root
+        while current is not None:
+            if key == current.key:
+                return current
+            if key > current.key:
+                current = current.right
+            else:
+                current = current.left
+        return None
+
+    def __contains__(self, key):
+        return self.find(key)
+
+    def __getitem__(self, key):
+        item = self.find(key)
+        if item is not None:
+            return item
+        raise IndexError('Element with that key doesn\'t exist')
+
+    def __setitem__(self, key, priority):
+        self.add(Node(key, priority))
+
+    def __delitem__(self, key):
+        self.delete(key)
+
+    def __iter__(self):
+        """
+        Прмой (Pre-order) обход
+        """
+
+        if self.root is not None:
+            for node in self.root:
+                yield node
+
+    def __repr__(self):
+        s = ""
+        for node in self:
+            s += str(node)
+        return s
