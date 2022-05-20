@@ -14,5 +14,5 @@ def test_example():
                 html.p("Third string.")
 
     html.generate("test.txt")
-    assert filecmp.cmp("tests/test3/task2/expected.txt", "src/test3/task2/test.txt")
+    assert filecmp.cmp("tests/test3/task2/expected.txt", "test.txt")
     os.remove("src/test3/task2/test.txt")
