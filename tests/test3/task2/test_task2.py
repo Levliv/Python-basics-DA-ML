@@ -1,6 +1,7 @@
 import pytest
 from src.test3.task2.html_manager import *
 import filecmp
+import os
 
 
 def test_example():
