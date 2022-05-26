@@ -25,7 +25,7 @@ jobs:
           
       - name: Test with pytest
         run: |
-          if [ -d tests ]; then python -m pytest tests/test3/task1; fi
+          if [ -d tests ]; then python -m pytest tests; fi
           
       - name: Check types with mypy
         run: |
