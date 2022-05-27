@@ -6,15 +6,14 @@ import re
 
 
 def test_logger():
-    @logger(handle='my_log.txt')
+    @logger(handle="my_log.txt")
     def f(n):
         if n != 0:
             f(n - 1)
 
     f(1)
-    with open('my_log.txt') as file:
-        inp = re.split(' |\n', file.read())
+    with open("my_log.txt") as file:
+        inp = re.split(" |\n", file.read())
         print(inp)
     assert len(inp) == 13
-    os.remove('my_log.txt')
-
+    os.remove("my_log.txt")
