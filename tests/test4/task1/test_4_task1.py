@@ -16,4 +16,8 @@ def test_logger():
         inp = re.split(" |\n", file.read())
         print(inp)
     assert len(inp) == 13
+    data1 = "".join(inp[2:6])
+    data2 = "".join(inp[8:12])
+    assert data1 == "f(0,){}None"
+    assert data2 == "f(1,){}None"
     os.remove("my_log.txt")
