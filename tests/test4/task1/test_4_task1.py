@@ -27,9 +27,9 @@ def test_logger_with_kwargs_and_return():
     def f(n, named):
         if n != 0:
             f(n - 1, named=named)
-        return n*named
+        return n * named
 
-    f(1, named='wer')
+    f(1, named="wer")
     with open("my_log.txt") as file:
         inp = re.split(" |\n", file.read())
     assert len(inp) == 15
