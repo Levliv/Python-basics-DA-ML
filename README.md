@@ -51,7 +51,7 @@ wc, nl, head, tail.
 созданию экземпляров и присваивание разного числа атрибутов
 
 ### Homework 7
-####Data analysis.
+#### Data analysis.
 Подготовка данных:
 1) Скачать известный датасет Титаник (train и test). 
 2) Загрузить их как Pandas DataFrame. 
