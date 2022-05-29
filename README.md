@@ -87,4 +87,4 @@ wc, nl, head, tail.
 * Sunburst chart.
 
 ## License
-Code in `src`, tests` directories are licensed under the [MIT Licence](LICENSE).
+Code in `src`, `tests` directories are licensed under the [MIT Licence](LICENSE).
