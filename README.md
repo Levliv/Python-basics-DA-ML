@@ -2,7 +2,7 @@
 Homeworks for python course in the 4-th semester at St. Petersburg SU 
 
 ## Table of content
-### Homework 1
+### [Homework 1](src/hw1)
 Реализовать функции для работы с векторами (скалярное произведение, вычисление длины, нахождение угла между ними)
 и матрицами (транспонирование, сложение, произведение).
 Где возможно, реализовать “в одну строчку”.
@@ -88,4 +88,4 @@ wc, nl, head, tail.
 * Sunburst chart.
 
 ## License
-Code in `src`, `tests` directories are licensed under the [MIT Licence](LICENSE).
+Code in `src`, tests` directories are licensed under the [MIT Licence](LICENSE).
