@@ -9,14 +9,14 @@ def image_colorize(path_to_file):
     parser.add_argument("-i", "--img_path", type=str, default=path_to_file)
     parser.add_argument("--use_gpu", action="store_true", help="whether to use GPU")
     split_path = path_to_file.split("/")
-    colored_dir_path = '/'.join([split_path[0], 'colored_' + split_path[1]])
+    colored_dir_path = "/".join([split_path[0], "colored_" + split_path[1]])
     if not os.path.exists(colored_dir_path):
         os.mkdir(colored_dir_path)
     parser.add_argument(
         "-o",
         "--save_prefix",
         type=str,
-        default='/'.join([split_path[0], 'colored_' + split_path[1], split_path[2]]),
+        default="/".join([split_path[0], "colored_" + split_path[1], split_path[2]]),
         help="will save into this file with {siggraph17.png} suffix",
     )
     opt = parser.parse_args()

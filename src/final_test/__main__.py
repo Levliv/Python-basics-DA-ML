@@ -12,23 +12,21 @@ def start_help(message):
     bot.reply_to(
         message,
         "Привет, {0}!\nОтправьте фотографию (.jpg), а я её раскрашу.\nЕсли нужна помощь, отправьте /help.\n"
-        "Чтобы получить результат преобразования, отправьте /results".format(
-            message.from_user.first_name
-        ),
+        "Чтобы получить результат преобразования, отправьте /results".format(message.from_user.first_name),
     )
 
 
 @bot.message_handler(commands=["results"])
 def get_results(message):
     user_id = message.from_user.id
-    dir_path = '/'.join(['photos', 'colored_' + str(user_id)])
+    dir_path = "/".join(["photos", "colored_" + str(user_id)])
     user_colored_photos = os.listdir(dir_path)
     for photo in user_colored_photos:
-        photo_path = '/'.join([dir_path, photo])
-        with open(photo_path, 'rb') as file:
+        photo_path = "/".join([dir_path, photo])
+        with open(photo_path, "rb") as file:
             bot.send_photo(user_id, file)
         os.remove(photo_path)
-    bot.reply_to(message, 'После получения результата ваши фотографии будут удалены и храниться только у вас.')
+    bot.reply_to(message, "После получения результата ваши фотографии будут удалены и храниться только у вас.")
 
 
 @bot.message_handler(content_types=["photo"])
