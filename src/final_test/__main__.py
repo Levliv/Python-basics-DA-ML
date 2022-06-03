@@ -2,7 +2,7 @@ import telebot
 import os
 from types import *
 from image_pocessing import image_colorize
-from file_handler import save_files
+from file_saver import save_files
 
 secret_key = ""
 with open("secrets.txt") as file:
