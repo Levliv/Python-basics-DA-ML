@@ -40,8 +40,9 @@ def handle_text(message):
     file_info = bot.get_file(message.photo[len(message.photo) - 1].file_id)
     downloaded_file = bot.download_file(file_info.file_path)
     save_file_path = save_files(message, file_info, downloaded_file)
-    bot.reply_to(message, "Фото добавлено.\nЧтобы получить раскрашенную фотографию используйте /results")
+    bot.reply_to(message, "Фото добавлено.\nВам придет уведомление, когда фотография будет обработана.")
     image_colorize(save_file_path)
+    bot.reply_to(message, "Чтобы получить раскрашеную фотографию используйте /results.")
     os.remove(save_file_path)
 
 
