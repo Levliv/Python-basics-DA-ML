@@ -133,3 +133,5 @@ dmypy.json
 
 *_handler.py
 .idea
+
+*.secrets.txt
