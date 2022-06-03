@@ -42,13 +42,12 @@ wc, nl, head, tail.
 5) Конструктор принимает dict, который используется для начальной инициализации 
 6) Добавьте визуализацию через __repr__
 
-### Homework 5
-Доработайте декартово дерево из предыдущей домашней работы.
-1. Пусть дерево реализует abc.MutableMapping
-2. Реализуйте собственный Metaclass, который заменяет _dict _ на ваше деркатово дерево
-(на самом деле перенаправляет, полностью заменить нельзя) и проведите замеры по
-созданию экземпляров и присваивание разного числа атрибутов
-
+### [Homework 5](src/hw5)
+#### Kaggle ML Competition [Life expectancy prediction](https://www.kaggle.com/competitions/spbu-life-expectancy).
+This dataset contains the information from World Health Organization (WHO) about life expectancy in different countries 
+in different years.
+<br>
+Your task will be to train a regression model to predict the life expectancy given a list of various parameters.
 ### [Homework 6](src/hw6)
 #### Data analysis.
 Подготовка данных:
