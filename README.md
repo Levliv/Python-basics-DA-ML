@@ -2,14 +2,14 @@
 Homeworks for python course in the 4-th semester at St. Petersburg SU 
 
 ## Table of content
-### [Homework 1](src/hw1)
+### [Task 1](src/hw1)
 Реализовать функции для работы с векторами (скалярное произведение, вычисление длины, нахождение угла между ними)
 и матрицами (транспонирование, сложение, произведение).
 Где возможно, реализовать “в одну строчку”.
 Реализовать функции, имитирующие работу bash команд –
 wc, nl, head, tail.
 
-### [Homework 2](src/hw2)
+### [Task 2](src/hw2)
 Каррирование
 
 Частичное применение (каррирование, curry) - это превращение функции от нескольких параметров в функцию от одного параметра, возвращающую функцию от остальных параметров. К ней существует обратная операция - uncarry. В Python каррирование в таком виде затруднено из-за произвольной арности.
@@ -25,14 +25,14 @@ wc, nl, head, tail.
 не забудьте, что есть произвольно-арные функции, такие как print(); curry_explicit должна замораживать их арность, т.е. нельзя написать curry_explicit(print,2)(1)(2)(3,4,5). В данном случае curry_explicit(print,2)(1)(2) вернет None, что сделает невозможным дальнейшее применение (Python сам бросит ошибку, данный кейс отдельно обрабатывать не нужно)
 именованные аргументы поддерживать не нужно
 
-### [Homework 3](src/hw3)
+### [Task 3](src/hw3)
 1) Реализовать свой семафор через менеджеров контекстов. 
 Применить его для чтения / записи в  Dict однозначно обезопасив его для мультитретинга (например так рекомендует стайлгайд гугла - https://github.com/google/styleguide/blob/91d6e367e384b0d8aaaf7ce95029514fcdf38651/pyguide.md#218-threading).
 
 2) Используя asyncio реализовать асинхронное скачивание картинок с сайта https://www.thisfuckeduphomerdoesnotexist.com
 (для парсинга html взять bs4). Каждая картинка должна скачиваться в отдельной корутине. Число скачиваний — аргумент cli.
 
-### [Homework 4](src/hw4)
+### [Task 4](src/hw4)
 Декартовое дерево.
 
 1) Реализуйте прямой итератор через __iter__
@@ -42,13 +42,13 @@ wc, nl, head, tail.
 5) Конструктор принимает dict, который используется для начальной инициализации 
 6) Добавьте визуализацию через __repr__
 
-### [Homework 5](src/hw5)
+### [Task 5](src/hw5)
 #### Kaggle ML Competition [Life expectancy prediction](https://www.kaggle.com/competitions/spbu-life-expectancy).
 This dataset contains the information from World Health Organization (WHO) about life expectancy in different countries 
 in different years.
 <br>
 Your task will be to train a regression model to predict the life expectancy given a list of various parameters.
-### [Homework 6](src/hw6)
+### [Task 6](src/hw6)
 #### Data analysis.
 Подготовка данных:
 1) Скачать известный датасет Титаник (train и test). 
