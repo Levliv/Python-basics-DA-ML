@@ -1,5 +1,5 @@
 # Levliv/Python_HomeWorks_4semester
-Homeworks for python course in the 4-th semester at St. Petersburg SU 
+Python basics featured with DS 
 
 ## Table of content
 ### [Task 1](src/hw1)
